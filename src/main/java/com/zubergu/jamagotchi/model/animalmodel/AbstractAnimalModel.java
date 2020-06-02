@@ -3,7 +3,7 @@ package com.zubergu.jamagotchi.model.animalmodel;
 /**
 *
 */
-public abstract class AbstractAnimalModel {
+public abstract class AbstractAnimalModel implements Serializable {
   
   /* constants for model */
   private static final int MAX_LEVEL = 100;
@@ -18,6 +18,7 @@ public abstract class AbstractAnimalModel {
   private int boredom;
   private int joy;
   private int anger;
+  private HashMap<Level, Integer> levels;
   
   /* state of model */
   private AnimalStateInterface state;
@@ -31,13 +32,13 @@ public abstract class AbstractAnimalModel {
   /* constructor */
   public AbstractAnimalModel(String name) {
     this.name = name;
-    hunger = MIN_LEVEL;
-    health = MAX_LEVEL;
-    dirtiness = MIN_LEVEL;
-    energy = MAX_LEVEL;
-    boredom = MIN_LEVEL;
-    joy = MAX_LEVEL;
-    anger = MIN_LEVEL;
+    levels.put(Level.HUNGER, MIN_LEVEL);
+    levels.put(Level.HEALTH, MAX_LEVEL);
+    levels.put(Level.DIRTINESS, MIN_LEVEL);
+    levels.put(Level.ENERGY, MAX_LEVEL);
+    levels.put(Level.BOREDOM, MIN_LEVEL);
+    levels.put(Level.JOY, MAX_LEVEL);
+    levels.put(Level.ANGER, MIN_LEVEL);
     
     states.put(State.TIRED, new TiredState(this));
     states.put(State.BORED, new BoredState(this));
@@ -51,6 +52,7 @@ public abstract class AbstractAnimalModel {
     states.put(State.SEEKING_ATTENTION, new SeekingAttentionState(this));
     states.put(State.ANGRY, new AngryState());
     
+    // set initial current state
     state = state.get(State.IDLE);
   }
   
@@ -86,7 +88,7 @@ public abstract class AbstractAnimalModel {
   
   private void notifyStateObservers() {
     for(StateObserver ob: stateObservers) {
-      ob.updateOnChangeState();
+      ob.updateOnChangeState(state);
     }
   }
   
@@ -134,5 +136,51 @@ public abstract class AbstractAnimalModel {
     notifyLevelsObservers();
   }
   
+  public void setState(State newState) {
+    state = states.get(newState);
+    notifyStateObservers(state);
+  }
+  
+  public int getLevel(Level level) {
+    return levels.get(level);
+  }
+  
+  
+  public void setLevel(Level level, int newValue) {
+    if(newValue > MAX_LEVEL) {
+      newValue = MAX_LEVEL;
+    }else if(newValue < MIN_LEVEL) {
+      newValue = MIN_LEVEL;
+    }
+    
+    levels.put(level, newValue);
+    
+    notifyLevelsObservers( levels.get(Level.HUNGER),
+                           levels.get(Level.HEALTH),
+                           levels.get(Level.DIRTINESS),
+                           levels.get(Level.ENERGY),
+                           levels.get(Level.BOREDOM),
+                           levels.get(Level.JOY),
+                           levels.get(Level.ANGER)
+                           );
+                            
+    )
+  }
+  
+  public void increaseLevel(Level level, value) {
+    setLevel(level, levels.get(level) + value);
+  }
+  
+  public void decreaseLevel(Level level, value) {
+    setLevel(level, levels.get(level) - value);
+  }
+  
+  public AnimalStateInterface getState(State state) {
+    return states.get(state);
+  }
+  
+  public AnimalStateInterface getCurrentState() {
+    return state;
+  }
 
 }
