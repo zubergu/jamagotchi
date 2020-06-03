@@ -182,5 +182,9 @@ public abstract class AbstractAnimalModel implements Serializable {
   public AnimalStateInterface getCurrentState() {
     return state;
   }
+  
+  public int getMaxLevel() {
+    return MAX_LEVEL;
+  }
 
 }

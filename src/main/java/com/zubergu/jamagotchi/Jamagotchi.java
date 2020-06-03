@@ -1,30 +1,26 @@
 package com.zubergu.jamagotchi;
 
 /**
-* Starter class
+* Starter class.
 */
 public class Jamagotchi {
   
   public static void main(String[] args) {
-    AbstactAnimalModel model;
+    AbstractAnimalModel model;
+    
+    // gui threads 
+    StartScreenRunner ssRunner = new StartScreenRunner();
+    MainViewRunner mvRunner = new MainViewRunner();
     
     /* retrieve saved animal if possible here */
-    SwingUtilities.invokeAndWait( new Runnable() {
-      public void run() {
-        StartScreen firstScreen = new StartScreen(model);
-        firstScreen.start();
-      }
-    });
+    SwingUtilities.invokeAndWait(ssRunner);
+    
+    // at this point either correct model is read by ssRunner or program quit
+    model = ssRunner.getModel();
     
     /* all startup code goes to event dispatch thread */
-    SwingUtilities.invokeLater(new Runnable()  {
-      public void run() {
-        MainView view = new MainView();
-        ControllerInterface controller = new AnimalController(model, view);
-        mainView.start();
-      }
-  
-    });
+    mvRunner.setModel(model);
+    SwingUtilities.invokeLater(mvRunner);
   }
 
 }

@@ -7,16 +7,15 @@ package com.zubergu.jamagotchi.gui.swinggui;
 public class StartScreen extends JDialog {
   private AbstractAnimalModel model;
   
-  public StartScreen(AbstractAnimalModel model) {
+  public StartScreen() {
     super((Window) null);
-    this.model = model;
     setModalityType(ModalityType.APPLICATION_MODAL);
     setModal(true);
   }
   
   
   public void start() {
-  
+    JFileChooser fileChooser = new JFileChooser();
     JPanel mainPanel = new JPanel( new GridLayout(0,2));
     JLabel nameLabel = new JLabel("Name");
     JTextField textField = new JTextField("");
@@ -26,7 +25,21 @@ public class StartScreen extends JDialog {
     
     loadButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        // open new dialog here
+        int returnVal = fileChooser.showOpenDialog(StartScreen.this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+          File file = fileChooser.getSelectedFile();
+          ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+          
+          try {
+            Object ob = ois.readObject();
+            if(ob instanceof AbstractAnimalModel) {
+              model = (AbstractAnimalModel) ob;
+            }
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+          
+        }
       }
     });
     
@@ -43,12 +56,14 @@ public class StartScreen extends JDialog {
     
     quitButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        setVisible(false);
-        dispose();
         System.exit(0);
       }
     });
   
+  }
+  
+  public AbstractAnimalModel getModel() {
+    return model;
   }
   
 }
