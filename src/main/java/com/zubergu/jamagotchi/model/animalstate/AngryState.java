@@ -1,5 +1,10 @@
 package com.zubergu.jamagotchi.model.animalstate;
 
+import com.zubergu.jamagotchi.model.animalmodel.Level;
+import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+
+
 /**
 * Implementation of animal behaviour in Angry state.
 */
@@ -18,10 +23,7 @@ public class AngryState implements AnimalStateInterface {
 
   @Override
   public void pet() {
-    model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 50);
-    if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
-      model.setState(State.IDLE);
-    }
+    //
   }
   
   @Override
@@ -51,10 +53,7 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    model.decreaseLeve(Level.ANGER, ANGER_CHANGE * 20);
-    if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
-      model.setState(State.IDLE);
-    }
+    //
   }
   
   @Override
@@ -64,15 +63,7 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
-    model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
-    model.decreaseLevel(Level.ENERGY, ENERGY_CHANGE);
-    model.decreaseLevel(Level.JOY, JOY_CHANGE);
-    
-    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
-      model.setState(State.SICK);
-    }
-    
+    //
   }
   
 }

@@ -1,9 +1,15 @@
 package com.zubergu.jamagotchi.controller;
 
+
+import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.gui.swinggui.MainView;
+import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
+import com.zubergu.jamagotchi.model.animalstate.AnimalStateInterface;
+
 /**
 *
 */
-public class AnimalController implements ControllerInterface {
+public class AnimalController implements ControllerInterface, StateObserver {
 
   private AbstractAnimalModel animal;
   private MainView view;
@@ -13,8 +19,8 @@ public class AnimalController implements ControllerInterface {
     this.view = view;
     
     /* set up observers for model */
-    animal.registerStateObserver(this);
-    animal.registerLevelsObserver(view);
+    animal.registerObserver(this);
+    animal.registerObserver(view);
   }
   
   public void playWith() {
@@ -56,7 +62,7 @@ public class AnimalController implements ControllerInterface {
   }
   
   /* when state changes there should be update in view done from here */
-  public void updateOnChangeState(AnimalStateInterface state) {
+  public void updateOnStateChange(AnimalStateInterface state) {
   
   }
   

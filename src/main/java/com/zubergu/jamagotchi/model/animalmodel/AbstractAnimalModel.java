@@ -1,9 +1,17 @@
 package com.zubergu.jamagotchi.model.animalmodel;
 
+
+import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
+import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
+import com.zubergu.jamagotchi.model.animalstate.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
 *
 */
-public abstract class AbstractAnimalModel implements Serializable {
+public abstract class AbstractAnimalModel {
   
   /* constants for model */
   private static final int MAX_LEVEL = 100;
@@ -50,10 +58,10 @@ public abstract class AbstractAnimalModel implements Serializable {
     states.put(State.SICK, new SickState(this));
     states.put(State.SLEEPING, new SleepingState(this));
     states.put(State.SEEKING_ATTENTION, new SeekingAttentionState(this));
-    states.put(State.ANGRY, new AngryState());
+    states.put(State.ANGRY, new AngryState(this));
     
     // set initial current state
-    state = state.get(State.IDLE);
+    state = states.get(State.IDLE);
   }
   
   
@@ -82,19 +90,18 @@ public abstract class AbstractAnimalModel implements Serializable {
   
   private void notifyLevelsObservers() {
     for(LevelsObserver ob: levelsObservers) {
-      ob.updateOnChange(hunger, health, dirtiness,energy,boredom,joy, anger);
+      ob.updateOnChange(hunger, health, dirtiness, energy, boredom, joy, anger);
     }
   }
   
   private void notifyStateObservers() {
     for(StateObserver ob: stateObservers) {
-      ob.updateOnChangeState(state);
+      ob.updateOnStateChange(state);
     }
   }
   
   public void playWith() {
     state.playWith();
-    notifyLevelsObservers();
   }
   
   public void stopPlaying() {
@@ -103,7 +110,6 @@ public abstract class AbstractAnimalModel implements Serializable {
   
   public void tick() {
     state.tick();
-    notifyLevelsObservers();
   }
   
   public void pet() {
@@ -113,32 +119,27 @@ public abstract class AbstractAnimalModel implements Serializable {
   
   public void feed() {
     state.feed();
-    notifyLevelsObservers();
   }
   
   public void clean() {
     state.clean();
-    notifyLevelsObservers();
   }
   
   public void takeToVet() {
     state.takeToVet();
-    notifyLevelsObservers();
   }
   
   public void talkTo() {
     state.talkTo();
-    notifyLevelsObservers();
   }
   
   public void wakeUp() {
     state.wakeUp();
-    notifyLevelsObservers();
   }
   
   public void setState(State newState) {
     state = states.get(newState);
-    notifyStateObservers(state);
+    notifyStateObservers();
   }
   
   public int getLevel(Level level) {
@@ -155,23 +156,14 @@ public abstract class AbstractAnimalModel implements Serializable {
     
     levels.put(level, newValue);
     
-    notifyLevelsObservers( levels.get(Level.HUNGER),
-                           levels.get(Level.HEALTH),
-                           levels.get(Level.DIRTINESS),
-                           levels.get(Level.ENERGY),
-                           levels.get(Level.BOREDOM),
-                           levels.get(Level.JOY),
-                           levels.get(Level.ANGER)
-                           );
-                            
-    )
+    notifyLevelsObservers();
   }
   
-  public void increaseLevel(Level level, value) {
+  public void increaseLevel(Level level, int value) {
     setLevel(level, levels.get(level) + value);
   }
   
-  public void decreaseLevel(Level level, value) {
+  public void decreaseLevel(Level level, int value) {
     setLevel(level, levels.get(level) - value);
   }
   

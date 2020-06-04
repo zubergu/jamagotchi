@@ -1,5 +1,23 @@
 package com.zubergu.jamagotchi.gui.swinggui;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JFileChooser;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
+import java.awt.Window;
+
+import com.zubergu.jamagotchi.model.animalmodel.Dog;
+import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.File;
+
 /**
 * Screen for loading saved model or creating new one. 
 * Extends JDialog to be modal( wait for closing before proceeding).
@@ -27,10 +45,9 @@ public class StartScreen extends JDialog {
       public void actionPerformed(ActionEvent ev) {
         int returnVal = fileChooser.showOpenDialog(StartScreen.this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-          File file = fileChooser.getSelectedFile();
-          ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-          
           try {
+            File file = fileChooser.getSelectedFile();
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
             Object ob = ois.readObject();
             if(ob instanceof AbstractAnimalModel) {
               model = (AbstractAnimalModel) ob;

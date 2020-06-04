@@ -10,6 +10,8 @@ public enum State {
   DEAD,
   DIRTY,
   SICK,
-  SLEEPING;
+  SLEEPING,
+  SEEKING_ATTENTION,
+  ANGRY;
   
 }

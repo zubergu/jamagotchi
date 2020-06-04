@@ -1,9 +1,19 @@
 package com.zubergu.jamagotchi.model.animalstate;
 
+import com.zubergu.jamagotchi.model.animalmodel.Level;
+import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+
+
 /**
 * Implementation of animal behaviour in Bored state.
 */
 public class BoredState implements AnimalStateInterface {
+
+  private static final int ANGER_CHANGE = 1;
+  private static final int HUNGER_CHANGE = 2;
+  private static final int ENERGY_CHANGE = 1;
+  private static final int JOY_CHANGE = 3;
 
   private AbstractAnimalModel model;
 
@@ -14,7 +24,6 @@ public class BoredState implements AnimalStateInterface {
   @Override
   public void pet() {
     model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 50);
-    model.decreaseLevel()
   }
   
   @Override
@@ -44,7 +53,7 @@ public class BoredState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    model.decreaseLeve(Level.ANGER, ANGER_CHANGE * 20);
+    model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 20);
     if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
       model.setState(State.IDLE);
     }
