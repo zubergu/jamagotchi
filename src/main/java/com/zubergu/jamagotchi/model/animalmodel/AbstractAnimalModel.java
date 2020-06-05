@@ -26,11 +26,11 @@ public abstract class AbstractAnimalModel {
   private int boredom;
   private int joy;
   private int anger;
-  private HashMap<Level, Integer> levels;
+  private HashMap<Level, Integer> levels = new HashMap<Level, Integer>();
   
   /* state of model */
   private AnimalStateInterface state;
-  private HashMap<State, AnimalStateInterface> states;
+  private HashMap<State, AnimalStateInterface> states = new HashMap<State, AnimalStateInterface>();
   
   /* observers */
   private ArrayList<LevelsObserver> levelsObservers = new ArrayList<LevelsObserver>();
@@ -177,6 +177,14 @@ public abstract class AbstractAnimalModel {
   
   public int getMaxLevel() {
     return MAX_LEVEL;
+  }
+  
+  public int getMinLevel() {
+    return MIN_LEVEL;
+  }
+  
+  public String getName() {
+    return name;
   }
 
 }

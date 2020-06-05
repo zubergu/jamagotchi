@@ -26,7 +26,7 @@ public class StartScreen extends JDialog {
   private AbstractAnimalModel model;
   
   public StartScreen() {
-    super((Window) null);
+    super((Window) null, "Jamagotchi start screen");
     setModalityType(ModalityType.APPLICATION_MODAL);
     setModal(true);
   }
@@ -40,6 +40,16 @@ public class StartScreen extends JDialog {
     JButton newButton = new JButton("New");
     JButton loadButton = new JButton("Load");
     JButton quitButton = new JButton("Quit");
+    
+    
+    mainPanel.add(nameLabel);
+    mainPanel.add(textField);
+    mainPanel.add(newButton);
+    mainPanel.add(loadButton);
+    mainPanel.add(quitButton);
+    
+    this.add(mainPanel);
+    
     
     loadButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
@@ -76,6 +86,11 @@ public class StartScreen extends JDialog {
         System.exit(0);
       }
     });
+    
+    
+    
+    setSize(300,200);
+    setVisible(true);
   
   }
   

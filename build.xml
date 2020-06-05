@@ -2,14 +2,24 @@
   <description>
       Jamagotchi - java virtual pet
   </description>
+    
+  
   <!-- set global properties for this build -->
-  <property name="src"   location="src"/>
+  <property name="src.dir"   location="src"/>
+  <property name="test.dir"  location="src"/>
+  <property name="testreport.dir" location="testreport"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
   <property name="ext"   location="external"/>
+  <property name="testResources" location="src/test/resources"/>
+  <property name="testSuites.dir" location="src/test/testsuites"/>
   
   <path id="classpath">
+    <pathelement location="${build}"/>
     <fileset dir="${ext}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir = "${testResources}">
       <include name="**/*.jar"/>
     </fileset>
   </path>
@@ -22,8 +32,8 @@
   </target>
   
   <target name="compile" depends="init" description="compile the source">
-    <!-- Compile the Java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" classpathref="classpath"/>
+    <!-- Compile the Java code from ${src.dir} into ${build} -->
+    <javac srcdir="${src.dir}" destdir="${build}" classpathref="classpath"/>
   </target>
   
   <target name="dist" depends="compile" description="generate the distribution">
@@ -39,5 +49,21 @@
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
   </target>
+  
+  <!-- Run TestNG -->
+  <taskdef name="testng" classname="org.testng.TestNGAntTask" classpathref="classpath" />
+  
+  <target name="testng" depends="compile">
+    <mkdir dir="${testreport.dir}"/>
+    <testng classpathref="classpath"
+            outputDir="${testreport.dir}"
+            haltOnFailure="false"
+            useDefaultListeners="true">
+      
+      <xmlfileset dir="${testSuites.dir}" includes="ModelTestSuite.xml"/>
+    </testng>
+    
+  </target>
+  
 </project>
   

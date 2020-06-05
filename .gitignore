@@ -10,6 +10,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# unit test results
+/testreport/*
+
 # Package Files #
 *.jar
 *.war
