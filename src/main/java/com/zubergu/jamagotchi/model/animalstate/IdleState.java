@@ -23,12 +23,15 @@ public class IdleState implements AnimalStateInterface {
 
   @Override
   public void pet() {
-
   }
   
   @Override
   public void feed() {
-    //
+    model.decreaseLevel(Level.HUNGER, 20);
+    model.increaseLevel(Level.DIRTINESS, 20);
+    if(model.getLevel(Level.DIRTINESS) >= 100 ) {
+      model.setState(State.DIRTY);
+    }
   }
   
   @Override

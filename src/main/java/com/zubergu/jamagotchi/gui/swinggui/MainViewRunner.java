@@ -10,12 +10,12 @@ import com.zubergu.jamagotchi.controller.AnimalController;
 */
 public class MainViewRunner implements Runnable {
 
-  private AbstractAnimalModel model;
-  
+  private AbstractAnimalModel model;  
   
   public void run() {
     MainView view = new MainView();
     ControllerInterface controller = new AnimalController(model, view);
+    view.setController(controller);
     view.start();
   }
   

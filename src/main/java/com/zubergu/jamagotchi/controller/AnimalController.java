@@ -63,7 +63,7 @@ public class AnimalController implements ControllerInterface, StateObserver {
   
   /* when state changes there should be update in view done from here */
   public void updateOnStateChange(AnimalStateInterface state) {
-  
+    view.setStateLabel(state.getClass().getSimpleName());
   }
   
   /* actions to be taken when user closes the application */

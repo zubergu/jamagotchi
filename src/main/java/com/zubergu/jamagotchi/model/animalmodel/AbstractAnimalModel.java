@@ -68,10 +68,12 @@ public abstract class AbstractAnimalModel {
   /* observer interface */
   public void registerObserver(StateObserver observer) {
     stateObservers.add(observer);
+    notifyStateObservers();
   }
   
   public void registerObserver(LevelsObserver observer) {
     levelsObservers.add(observer);
+    notifyLevelsObservers();
   }
   
   public void removeObserver(StateObserver observer) {
@@ -89,6 +91,13 @@ public abstract class AbstractAnimalModel {
   }
   
   private void notifyLevelsObservers() {
+    hunger = getLevel(Level.HUNGER);
+    health = getLevel(Level.HEALTH);
+    dirtiness = getLevel(Level.DIRTINESS);
+    energy = getLevel(Level.ENERGY);
+    boredom = getLevel(Level.BOREDOM);
+    joy = getLevel(Level.JOY);
+    anger = getLevel(Level.ANGER);
     for(LevelsObserver ob: levelsObservers) {
       ob.updateOnChange(hunger, health, dirtiness, energy, boredom, joy, anger);
     }
@@ -114,7 +123,6 @@ public abstract class AbstractAnimalModel {
   
   public void pet() {
     state.pet();
-    notifyLevelsObservers();
   }
   
   public void feed() {
@@ -150,7 +158,7 @@ public abstract class AbstractAnimalModel {
   public void setLevel(Level level, int newValue) {
     if(newValue > MAX_LEVEL) {
       newValue = MAX_LEVEL;
-    }else if(newValue < MIN_LEVEL) {
+    } else if(newValue < MIN_LEVEL) {
       newValue = MIN_LEVEL;
     }
     
