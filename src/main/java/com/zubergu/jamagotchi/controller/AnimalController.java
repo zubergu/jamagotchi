@@ -6,6 +6,9 @@ import com.zubergu.jamagotchi.gui.swinggui.MainView;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
 import com.zubergu.jamagotchi.model.animalstate.AnimalStateInterface;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
 *
 */
@@ -57,8 +60,14 @@ public class AnimalController implements ControllerInterface, StateObserver {
   
   /* set timer for updating model statistics:
     call animal.tick() periodically */
+  @Override
   public void startTicking() {
-    
+    Timer timer = new Timer(true);
+    timer.scheduleAtFixedRate(new TimerTask() {
+      public void run() {
+        animal.tick();
+      }
+    }, 0, 1000);
   }
   
   /* when state changes there should be update in view done from here */

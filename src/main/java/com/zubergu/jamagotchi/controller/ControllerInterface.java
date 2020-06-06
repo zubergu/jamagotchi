@@ -13,5 +13,6 @@ public interface ControllerInterface {
   public void takeToVet();
   public void talkTo();
   public void wakeUp();
+  public void startTicking();
 
 }

@@ -66,7 +66,7 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    
+    model.decreaseLevel(Level.ENERGY, 1);
   }
   
 }

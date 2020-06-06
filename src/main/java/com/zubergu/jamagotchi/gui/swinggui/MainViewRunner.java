@@ -17,6 +17,7 @@ public class MainViewRunner implements Runnable {
     ControllerInterface controller = new AnimalController(model, view);
     view.setController(controller);
     view.start();
+    controller.startTicking();
   }
   
   public void setModel(AbstractAnimalModel model) {
