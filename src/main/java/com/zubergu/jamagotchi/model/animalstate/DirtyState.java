@@ -14,6 +14,7 @@ public class DirtyState implements AnimalStateInterface {
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
+  private static final int DIRTINESS_CHANGE = 1;
   
   private AbstractAnimalModel model;
 
@@ -23,7 +24,7 @@ public class DirtyState implements AnimalStateInterface {
 
   @Override
   public void pet() {
-
+    //
   }
   
   @Override
@@ -48,7 +49,8 @@ public class DirtyState implements AnimalStateInterface {
   
   @Override
   public void clean() {
-    //
+    model.setLevel(Level.DIRTINESS, model.getMinLevel());
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -63,7 +65,11 @@ public class DirtyState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    
+    model.increaseLevel(Level.DIRTINESS, DIRTINESS_CHANGE);
+    model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
+    if(model.getLevel(Level.DIRTINESS) >= model.getMaxLevel()) {
+      model.setState(State.SICK);
+    }
   }
   
 }

@@ -16,6 +16,8 @@ public class HungryState implements AnimalStateInterface {
   private static final int JOY_CHANGE = 3;
   
   private AbstractAnimalModel model;
+  
+  private int hungryTickCounter = 0;
 
   public HungryState(AbstractAnimalModel model) {
     this.model = model;
@@ -23,12 +25,14 @@ public class HungryState implements AnimalStateInterface {
 
   @Override
   public void pet() {
-
+    //
   }
   
   @Override
   public void feed() {
-    //
+    hungryTickCounter = 0;
+    model.setLevel(Level.HUNGER, model.getMinLevel());
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -63,7 +67,12 @@ public class HungryState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-
+    hungryTickCounter++;
+    
+    if(hungryTickCounter > 200) {
+      hungryTickCounter = 0;
+      model.setState(State.SICK);
+    }
   }
   
 }

@@ -16,6 +16,8 @@ public class AngryState implements AnimalStateInterface {
   private static final int JOY_CHANGE = 3;
   
   private AbstractAnimalModel model;
+  
+  private int angryTickCounter = 0;
 
   public AngryState(AbstractAnimalModel model) {
     this.model = model;
@@ -53,7 +55,8 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    //
+    angryTickCounter = 0;
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -63,7 +66,11 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    //
+    angryTickCounter++;
+    if(angryTickCounter > 200) {
+      angryTickCounter = 0;
+      model.setState(State.SICK);
+    }
   }
   
 }

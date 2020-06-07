@@ -10,10 +10,11 @@ import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
 */
 public class IdleState implements AnimalStateInterface {
 
-  private static final int ANGER_CHANGE = 1;
+  private static final int ANGER_CHANGE  = 10;
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
-  private static final int JOY_CHANGE = 3;
+  private static final int BOREDOM_CHANGE = 3;
+
   
   private AbstractAnimalModel model;
 
@@ -23,6 +24,8 @@ public class IdleState implements AnimalStateInterface {
 
   @Override
   public void pet() {
+    model.increaseLevel(Level.JOY, 20);
+    model.decreaseLevel(Level.ANGER, 20);
   }
   
   @Override
@@ -36,12 +39,19 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void takeToVet() {
-    //
+    model.setLevel(Level.DIRTINESS, model.getMinLevel());
+    model.setLevel(Level.ENERGY, model.getMaxLevel());
+    model.setLevel(Level.JOY, model.getMinLevel());
+    model.setLevel(Level.HEALTH, model.getMaxLevel());
+    model.setLevel(Level.HUNGER, model.getMinLevel());
+    model.setLevel(Level.JOY, model.getMinLevel());
+    
+    model.setState(State.IDLE);
   }
   
   @Override
   public void playWith() {
-    //
+    model.setState(State.PLAYING);
   }
   
   @Override
@@ -51,12 +61,12 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void clean() {
-    //
+    model.setLevel(Level.DIRTINESS, model.getMinLevel());
   }
   
   @Override
   public void talkTo() {
-
+    model.decreaseLevel(Level.ANGER, ANGER_CHANGE);
   }
   
   @Override
@@ -66,7 +76,16 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    model.decreaseLevel(Level.ENERGY, 1);
+    model.decreaseLevel(Level.ENERGY, ENERGY_CHANGE);
+    model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
+    model.increaseLevel(Level.BOREDOM, BOREDOM_CHANGE);
+    
+    // change state conditions priority
+    if(model.getLevel(Level.HUNGER) >= model.getMaxLevel()) {
+      model.setState(State.HUNGRY);
+    } else if (model.getLevel(Level.ENERGY) <= model.getMinLevel()/2) {
+      model.setState(State.TIRED);
+    }
   }
   
 }

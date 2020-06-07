@@ -14,7 +14,7 @@ public class PlayingState implements AnimalStateInterface {
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
-  
+  private static final int BOREDOM_CHANGE = 3;
   private AbstractAnimalModel model;
 
   public PlayingState(AbstractAnimalModel model) {
@@ -43,7 +43,7 @@ public class PlayingState implements AnimalStateInterface {
   
   @Override
   public void stopPlaying() {
-    //
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -63,7 +63,13 @@ public class PlayingState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    //
+    model.decreaseLevel(Level.ENERGY, ENERGY_CHANGE);
+    model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
+    model.decreaseLevel(Level.BOREDOM, BOREDOM_CHANGE);
+    model.increaseLevel(Level.JOY, JOY_CHANGE);
+    if(model.getLevel(Level.ENERGY) <= model.getMaxLevel()/4) {
+      model.setState(State.IDLE);
+    }
   }
   
 }

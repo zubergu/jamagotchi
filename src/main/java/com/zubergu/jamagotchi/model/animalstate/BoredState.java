@@ -14,6 +14,7 @@ public class BoredState implements AnimalStateInterface {
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
+  private static final int BOREDOM_CHANGE = 1;
 
   private AbstractAnimalModel model;
 
@@ -24,11 +25,12 @@ public class BoredState implements AnimalStateInterface {
   @Override
   public void pet() {
     model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 50);
+    model.decreaseLevel(Level.BOREDOM, BOREDOM_CHANGE * 10);
   }
   
   @Override
   public void feed() {
-    
+    model.decreaseLevel(Level.HUNGER, HUNGER_CHANGE);
   }
   
   @Override
@@ -38,7 +40,7 @@ public class BoredState implements AnimalStateInterface {
   
   @Override
   public void playWith() {
-    //
+    model.setState(State.PLAYING);
   }
   
   @Override
@@ -54,7 +56,8 @@ public class BoredState implements AnimalStateInterface {
   @Override
   public void talkTo() {
     model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 20);
-    if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
+    model.decreaseLevel(Level.BOREDOM, BOREDOM_CHANGE * 10);
+    if( model.getLevel(Level.BOREDOM) < (model.getMaxLevel()/4) ) {
       model.setState(State.IDLE);
     }
   }
@@ -66,13 +69,12 @@ public class BoredState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
     model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
     model.decreaseLevel(Level.ENERGY, ENERGY_CHANGE);
-    model.decreaseLevel(Level.JOY, JOY_CHANGE);
+    model.increaseLevel(Level.BOREDOM, BOREDOM_CHANGE);
     
-    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
-      model.setState(State.SICK);
+    if(model.getLevel(Level.BOREDOM) >= model.getMaxLevel()) {
+      model.setState(State.SEEKING_ATTENTION);
     }
     
   }

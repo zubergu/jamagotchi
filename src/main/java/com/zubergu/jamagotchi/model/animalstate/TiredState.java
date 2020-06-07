@@ -15,6 +15,8 @@ public class TiredState implements AnimalStateInterface {
   private static final int JOY_CHANGE = 3;
   
   private AbstractAnimalModel model;
+  
+  private int tiredTickCounter = 0;
 
   public TiredState(AbstractAnimalModel model) {
     this.model = model;
@@ -22,15 +24,18 @@ public class TiredState implements AnimalStateInterface {
 
   @Override
   public void pet() {
-    model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 50);
-    if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
-      model.setState(State.IDLE);
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
     }
   }
   
   @Override
   public void feed() {
-    //
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
+    }
   }
   
   @Override
@@ -40,7 +45,10 @@ public class TiredState implements AnimalStateInterface {
   
   @Override
   public void playWith() {
-    //
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
+    }
   }
   
   @Override
@@ -50,31 +58,36 @@ public class TiredState implements AnimalStateInterface {
   
   @Override
   public void clean() {
-    //
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
+    }
   }
   
   @Override
   public void talkTo() {
-    model.decreaseLevel(Level.ANGER, ANGER_CHANGE * 20);
-    if( model.getLevel(Level.ANGER) < (model.getMaxLevel()/5) ) {
-      model.setState(State.IDLE);
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
     }
   }
   
   @Override
   public void wakeUp() {
-    // nothing
+    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
+    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
+      model.setState(State.ANGRY);
+    }
   }
   
   @Override
   public void tick() {
-    model.increaseLevel(Level.ANGER, ANGER_CHANGE);
     model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
     model.decreaseLevel(Level.ENERGY, ENERGY_CHANGE);
-    model.decreaseLevel(Level.JOY, JOY_CHANGE);
     
-    if(model.getLevel(Level.ANGER) >= model.getMaxLevel()) {
-      model.setState(State.SICK);
+    
+    if(model.getLevel(Level.ENERGY) <= model.getMinLevel()) {
+      model.setState(State.SLEEPING);
     }
     
   }

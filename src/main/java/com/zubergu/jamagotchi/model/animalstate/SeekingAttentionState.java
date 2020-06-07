@@ -15,15 +15,23 @@ public class SeekingAttentionState implements AnimalStateInterface {
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
   
+  
+  
   private AbstractAnimalModel model;
-
+  private int seekingAttentionTickCounter = 0;
+  
   public SeekingAttentionState(AbstractAnimalModel model) {
     this.model = model;
   }
 
   @Override
   public void pet() {
-    //
+    decreaseSeekAttCounter(20);
+    
+    if(seekingAttentionTickCounter == 0) {
+      model.setState(State.IDLE);
+    }
+    
   }
   
   @Override
@@ -38,7 +46,8 @@ public class SeekingAttentionState implements AnimalStateInterface {
   
   @Override
   public void playWith() {
-    //
+    seekingAttentionTickCounter = 0;
+    model.setState(State.PLAYING);
   }
   
   @Override
@@ -53,7 +62,10 @@ public class SeekingAttentionState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    //
+    decreaseSeekAttCounter(20);
+    if(seekingAttentionTickCounter == 0) {
+      model.setState(State.IDLE);
+    }
   }
   
   @Override
@@ -63,7 +75,21 @@ public class SeekingAttentionState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    //
+    seekingAttentionTickCounter++;
+    
+    if(seekingAttentionTickCounter > 200) {
+      seekingAttentionTickCounter = 0;
+      model.setState(State.SICK);
+    }
+    
+  }
+  
+  
+  private void decreaseSeekAttCounter(int value) {
+    seekingAttentionTickCounter -= value;
+    if(seekingAttentionTickCounter < 0 ) {
+      seekingAttentionTickCounter = 0;
+    }
   }
   
 }

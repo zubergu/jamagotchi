@@ -10,11 +10,6 @@ import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
 */
 public class DeadState implements AnimalStateInterface {
 
-  private static final int ANGER_CHANGE = 1;
-  private static final int HUNGER_CHANGE = 2;
-  private static final int ENERGY_CHANGE = 1;
-  private static final int JOY_CHANGE = 3;
-  
   private AbstractAnimalModel model;
 
   public DeadState(AbstractAnimalModel model) {

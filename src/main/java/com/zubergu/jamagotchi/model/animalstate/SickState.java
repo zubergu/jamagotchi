@@ -14,6 +14,7 @@ public class SickState implements AnimalStateInterface {
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
+  private static final int HEALTH_CHANGE = 1;
   
   private AbstractAnimalModel model;
 
@@ -33,7 +34,14 @@ public class SickState implements AnimalStateInterface {
   
   @Override
   public void takeToVet() {
-    //
+    model.setLevel(Level.DIRTINESS, model.getMinLevel());
+    model.setLevel(Level.ENERGY, model.getMaxLevel());
+    model.setLevel(Level.JOY, model.getMinLevel());
+    model.setLevel(Level.HEALTH, model.getMaxLevel());
+    model.setLevel(Level.HUNGER, model.getMinLevel());
+    model.setLevel(Level.JOY, model.getMinLevel());
+    
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -63,7 +71,10 @@ public class SickState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    //
+    model.decreaseLevel(Level.HEALTH, HEALTH_CHANGE);
+    if(model.getLevel(Level.HEALTH) <= model.getMinLevel()) {
+      model.setState(State.DEAD);
+    }
   }
   
 }

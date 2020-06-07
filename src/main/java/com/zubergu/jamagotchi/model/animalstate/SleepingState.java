@@ -11,9 +11,9 @@ import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
 public class SleepingState implements AnimalStateInterface {
 
   private static final int ANGER_CHANGE = 1;
-  private static final int HUNGER_CHANGE = 2;
-  private static final int ENERGY_CHANGE = 1;
-  private static final int JOY_CHANGE = 3;
+  private static final int HUNGER_CHANGE = 1;
+  private static final int ENERGY_CHANGE = 20;
+  private static final int JOY_CHANGE = 10;
   
   private AbstractAnimalModel model;
 
@@ -58,12 +58,21 @@ public class SleepingState implements AnimalStateInterface {
   
   @Override
   public void wakeUp() {
-    // nothing
+    if(model.getLevel(Level.ENERGY) < model.getMaxLevel()/2 ) {
+      model.decreaseLevel(Level.JOY, JOY_CHANGE);
+    }
+    
+    model.setState(State.IDLE);
   }
   
   @Override
   public void tick() {
-    //
+    model.increaseLevel(Level.ENERGY, ENERGY_CHANGE);
+    model.increaseLevel(Level.HUNGER, HUNGER_CHANGE);
+    
+    if(model.getLevel(Level.ENERGY) >= model.getMaxLevel()) {
+      model.setState(State.IDLE);
+    }
   }
   
 }
