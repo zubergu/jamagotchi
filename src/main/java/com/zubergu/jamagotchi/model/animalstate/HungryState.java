@@ -32,6 +32,7 @@ public class HungryState implements AnimalStateInterface {
   public void feed() {
     hungryTickCounter = 0;
     model.setLevel(Level.HUNGER, model.getMinLevel());
+    model.increaseLevel(Level.DIRTINESS, 20);
     model.setState(State.IDLE);
   }
   

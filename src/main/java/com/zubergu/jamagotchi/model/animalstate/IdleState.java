@@ -26,6 +26,7 @@ public class IdleState implements AnimalStateInterface {
   public void pet() {
     model.increaseLevel(Level.JOY, 20);
     model.decreaseLevel(Level.ANGER, 20);
+    model.decreaseLevel(Level.BOREDOM, 5);
   }
   
   @Override
@@ -45,7 +46,6 @@ public class IdleState implements AnimalStateInterface {
     model.setLevel(Level.HEALTH, model.getMaxLevel());
     model.setLevel(Level.HUNGER, model.getMinLevel());
     model.setLevel(Level.JOY, model.getMinLevel());
-    
     model.setState(State.IDLE);
   }
   
@@ -66,7 +66,9 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    model.decreaseLevel(Level.ANGER, ANGER_CHANGE);
+    model.increaseLevel(Level.JOY, 5);
+    model.decreaseLevel(Level.ANGER, 5);
+    model.decreaseLevel(Level.BOREDOM, 3);
   }
   
   @Override
@@ -85,6 +87,8 @@ public class IdleState implements AnimalStateInterface {
       model.setState(State.HUNGRY);
     } else if (model.getLevel(Level.ENERGY) <= model.getMinLevel()/2) {
       model.setState(State.TIRED);
+    } else if (model.getLevel(Level.BOREDOM) > model.getMaxLevel()/2) {
+      model.setState(State.BORED);
     }
   }
   
