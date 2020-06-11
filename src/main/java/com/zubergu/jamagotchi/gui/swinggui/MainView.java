@@ -13,6 +13,9 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 
 /**
 * Main application window.
@@ -151,6 +154,13 @@ public class MainView implements LevelsObserver {
     wakeUpButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
         controller.wakeUp();
+      }
+    });
+      
+      
+    mainFrame.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent ev) {
+        controller.shutdownActions();
       }
     });
     

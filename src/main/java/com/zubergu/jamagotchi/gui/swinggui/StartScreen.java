@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import com.zubergu.jamagotchi.model.animalmodel.Dog;
 import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
@@ -61,6 +63,7 @@ public class StartScreen extends JDialog {
             Object ob = ois.readObject();
             if(ob instanceof AbstractAnimalModel) {
               model = (AbstractAnimalModel) ob;
+              setVisible(false);
             }
           } catch (Exception ex) {
             ex.printStackTrace();
@@ -87,10 +90,15 @@ public class StartScreen extends JDialog {
       }
     });
     
+    this.addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent ev) {
+        dispose();
+        System.exit(0);
+      }
+    });
     
-    
-    setSize(300,200);
-    setVisible(true);
+    this.setSize(300,200);
+    this.setVisible(true);
   
   }
   

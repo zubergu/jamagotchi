@@ -1,9 +1,11 @@
 package com.zubergu.jamagotchi.model.animalstate;
 
+import java.io.Serializable;
+
 /**
 * Interface for animal state.
 */
-public interface AnimalStateInterface {
+public interface AnimalStateInterface extends Serializable {
 
   public void pet();
   public void feed();

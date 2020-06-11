@@ -9,6 +9,9 @@ import com.zubergu.jamagotchi.model.animalstate.AnimalStateInterface;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
 /**
 *
 */
@@ -76,9 +79,17 @@ public class AnimalController implements ControllerInterface, StateObserver {
   }
   
   /* actions to be taken when user closes the application */
-  public void shutdownOperations() {
-    // save the model
-    
+  public void shutdownActions() {
+    // save the model and 
+    String fileName = animal.getName() + ".jmg";
+    try {
+      ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+      oos.writeObject(animal);
+      oos.close();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    System.exit(0);
   }
 
 }

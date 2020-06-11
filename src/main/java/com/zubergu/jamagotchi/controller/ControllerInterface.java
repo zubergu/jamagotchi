@@ -14,5 +14,6 @@ public interface ControllerInterface {
   public void talkTo();
   public void wakeUp();
   public void startTicking();
+  public void shutdownActions();
 
 }

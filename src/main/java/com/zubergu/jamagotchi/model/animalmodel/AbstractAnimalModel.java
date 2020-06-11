@@ -8,10 +8,14 @@ import com.zubergu.jamagotchi.model.animalstate.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 /**
 *
 */
-public abstract class AbstractAnimalModel {
+public abstract class AbstractAnimalModel implements Serializable {
   
   /* constants for model */
   private static final int MAX_LEVEL = 100;
@@ -33,13 +37,17 @@ public abstract class AbstractAnimalModel {
   private HashMap<State, AnimalStateInterface> states = new HashMap<State, AnimalStateInterface>();
   
   /* observers */
-  private ArrayList<LevelsObserver> levelsObservers = new ArrayList<LevelsObserver>();
-  private ArrayList<StateObserver> stateObservers  = new ArrayList<StateObserver>();
+  private transient ArrayList<LevelsObserver> levelsObservers = new ArrayList<LevelsObserver>();
+  private transient ArrayList<StateObserver> stateObservers = new ArrayList<StateObserver>();
   
+  public AbstractAnimalModel() {
+    // serialization made me do it
+  }
   
   /* constructor */
   public AbstractAnimalModel(String name) {
     this.name = name;
+    
     levels.put(Level.HUNGER, MIN_LEVEL);
     levels.put(Level.HEALTH, MAX_LEVEL);
     levels.put(Level.DIRTINESS, MIN_LEVEL);
@@ -67,11 +75,17 @@ public abstract class AbstractAnimalModel {
   
   /* observer interface */
   public void registerObserver(StateObserver observer) {
+    if(stateObservers == null) {
+      System.out.println("stateObservers is null");
+    }
     stateObservers.add(observer);
     notifyStateObservers();
   }
   
   public void registerObserver(LevelsObserver observer) {
+      if(stateObservers == null) {
+      System.out.println("levelsObservers is null");
+    }
     levelsObservers.add(observer);
     notifyLevelsObservers();
   }
@@ -194,5 +208,11 @@ public abstract class AbstractAnimalModel {
   public String getName() {
     return name;
   }
+  
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    levelsObservers = new ArrayList<LevelsObserver>();
+    stateObservers = new ArrayList<StateObserver>();
+}
 
 }
