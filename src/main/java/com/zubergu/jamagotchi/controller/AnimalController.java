@@ -4,10 +4,12 @@ package com.zubergu.jamagotchi.controller;
 import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
 import com.zubergu.jamagotchi.gui.swinggui.MainView;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
-import com.zubergu.jamagotchi.model.animalstate.AnimalStateInterface;
+import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.audio.SoundController;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -19,14 +21,19 @@ public class AnimalController implements ControllerInterface, StateObserver {
 
   private AbstractAnimalModel animal;
   private MainView view;
+  private SoundController soundController;
 
-  public AnimalController(AbstractAnimalModel model, MainView view) {
+  public AnimalController( AbstractAnimalModel model, MainView view, SoundController soundController ) {
     this.animal = model;
     this.view = view;
+    this.soundController = soundController;
+
     
     /* set up observers for model */
-    animal.registerObserver(this);
-    animal.registerObserver(view);
+    animal.registerStateObserver( this );
+    animal.registerLevelsObserver( view );
+    animal.registerActionObserver( soundController );
+    animal.registerStateObserver( soundController );
   }
   
   public void playWith() {
@@ -65,17 +72,20 @@ public class AnimalController implements ControllerInterface, StateObserver {
     call animal.tick() periodically */
   @Override
   public void startTicking() {
-    Timer timer = new Timer(true);
-    timer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        animal.tick();
-      }
-    }, 0, 1000);
+      Timer timer = new Timer( 1000, new ActionListener() {
+              
+          @Override
+          public void actionPerformed( ActionEvent ev ) {
+              animal.tick();
+          }
+      });
+      
+      timer.start();
   }
   
   /* when state changes there should be update in view done from here */
-  public void updateOnStateChange(AnimalStateInterface state) {
-    view.setStateLabel(state.getClass().getSimpleName());
+  public void updateOnStateChange( State state ) {
+    view.setStateLabel( state.toString() );
   }
   
   /* actions to be taken when user closes the application */

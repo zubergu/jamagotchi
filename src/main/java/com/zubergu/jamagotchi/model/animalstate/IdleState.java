@@ -56,7 +56,7 @@ public class IdleState implements AnimalStateInterface {
   
   @Override
   public void stopPlaying() {
-    //
+    model.setState( State.IDLE );
   }
   
   @Override

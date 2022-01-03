@@ -3,6 +3,7 @@ package com.zubergu.jamagotchi.model.animalmodel;
 
 import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
+import com.zubergu.jamagotchi.model.modelinterfaces.ActionObserver;
 import com.zubergu.jamagotchi.model.animalstate.*;
 
 import java.util.ArrayList;
@@ -35,10 +36,12 @@ public abstract class AbstractAnimalModel implements Serializable {
   /* state of model */
   private AnimalStateInterface state;
   private HashMap<State, AnimalStateInterface> states = new HashMap<State, AnimalStateInterface>();
+  private HashMap<AnimalStateInterface, State> reverseStates = new HashMap<AnimalStateInterface, State>();
   
   /* observers */
   private transient ArrayList<LevelsObserver> levelsObservers = new ArrayList<LevelsObserver>();
   private transient ArrayList<StateObserver> stateObservers = new ArrayList<StateObserver>();
+  private transient ArrayList<ActionObserver> actionObservers = new ArrayList<ActionObserver>();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
   
   public AbstractAnimalModel() {
     // serialization made me do it
@@ -68,13 +71,25 @@ public abstract class AbstractAnimalModel implements Serializable {
     states.put(State.SEEKING_ATTENTION, new SeekingAttentionState(this));
     states.put(State.ANGRY, new AngryState(this));
     
+    reverseStates.put( states.get(State.TIRED), State.TIRED );
+    reverseStates.put( states.get(State.BORED), State.BORED );
+    reverseStates.put( states.get(State.PLAYING), State.PLAYING );
+    reverseStates.put( states.get(State.IDLE), State.IDLE );
+    reverseStates.put( states.get(State.HUNGRY), State.HUNGRY );
+    reverseStates.put( states.get(State.DEAD), State.DEAD );
+    reverseStates.put( states.get(State.DIRTY), State.DIRTY );
+    reverseStates.put( states.get(State.SICK), State.SICK );
+    reverseStates.put( states.get(State.SLEEPING), State.SLEEPING );
+    reverseStates.put( states.get(State.SEEKING_ATTENTION), State.SEEKING_ATTENTION );
+    reverseStates.put( states.get(State.ANGRY), State.ANGRY );
+    
     // set initial current state
     state = states.get(State.IDLE);
   }
   
   
   /* observer interface */
-  public void registerObserver(StateObserver observer) {
+  public void registerStateObserver(StateObserver observer) {
     if(stateObservers == null) {
       System.out.println("stateObservers is null");
     }
@@ -82,27 +97,42 @@ public abstract class AbstractAnimalModel implements Serializable {
     notifyStateObservers();
   }
   
-  public void registerObserver(LevelsObserver observer) {
-      if(stateObservers == null) {
+  public void registerLevelsObserver(LevelsObserver observer) {
+    if(stateObservers == null) {
       System.out.println("levelsObservers is null");
     }
     levelsObservers.add(observer);
     notifyLevelsObservers();
   }
   
-  public void removeObserver(StateObserver observer) {
+  public void registerActionObserver( ActionObserver observer ) {
+    if(actionObservers == null) {
+      System.out.println( "actionObservers is null");
+    }
+    actionObservers.add( observer );
+  }
+  
+  public void removeStateObserver(StateObserver observer) {
     int index = stateObservers.indexOf(observer);
     if(index >= 0) {
       stateObservers.remove(index);
     }
   }
   
-  public void removeObserver(LevelsObserver observer) {
+  public void removeLevelsObserver(LevelsObserver observer) {
     int index = levelsObservers.indexOf(observer);
     if(index >= 0) {
       levelsObservers.remove(index);
     }
   }
+
+  public void removeActionObserver(ActionObserver observer) {
+    int index = actionObservers.indexOf(observer);
+    if(index >= 0) {
+      actionObservers.remove(index);
+    }
+  }
+    
   
   private void notifyLevelsObservers() {
     hunger = getLevel(Level.HUNGER);
@@ -119,11 +149,18 @@ public abstract class AbstractAnimalModel implements Serializable {
   
   private void notifyStateObservers() {
     for(StateObserver ob: stateObservers) {
-      ob.updateOnStateChange(state);
+      ob.updateOnStateChange( reverseStates.get( state ) );
     }
   }
   
+  private void notifyActionObservers( Action action ) {
+      for( ActionObserver ob: actionObservers ) {
+          ob.notifyOfAction( action );
+      }
+  }
+  
   public void playWith() {
+    notifyActionObservers( Action.PLAY );
     state.playWith();
   }
   
@@ -136,26 +173,34 @@ public abstract class AbstractAnimalModel implements Serializable {
   }
   
   public void pet() {
+    notifyActionObservers( Action.PET );
     state.pet();
   }
   
   public void feed() {
+    notifyActionObservers( Action.FEED );   
     state.feed();
   }
   
   public void clean() {
+    notifyActionObservers( Action.CLEAN );      
     state.clean();
   }
   
   public void takeToVet() {
+    notifyActionObservers( Action.TAKE_TO_VET );
+      
     state.takeToVet();
   }
   
   public void talkTo() {
+    notifyActionObservers( Action.TALK_TO );
+     
     state.talkTo();
   }
   
   public void wakeUp() {
+    notifyActionObservers( Action.WAKE_UP );
     state.wakeUp();
   }
   
@@ -213,6 +258,7 @@ public abstract class AbstractAnimalModel implements Serializable {
     in.defaultReadObject();
     levelsObservers = new ArrayList<LevelsObserver>();
     stateObservers = new ArrayList<StateObserver>();
+    actionObservers = new ArrayList<ActionObserver>();
 }
 
 }

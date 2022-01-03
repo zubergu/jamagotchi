@@ -1,10 +1,10 @@
 package com.zubergu.jamagotchi.model.modelinterfaces;
 
 
-import com.zubergu.jamagotchi.model.animalstate.AnimalStateInterface;
+import com.zubergu.jamagotchi.model.animalmodel.State;
 /**
 *
 */
 public interface StateObserver {
-  public void updateOnStateChange(AnimalStateInterface state);
+  public void updateOnStateChange( State state );
 }

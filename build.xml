@@ -8,14 +8,23 @@
   <property name="src.dir"   location="src"/>
   <property name="test.dir"  location="src"/>
   <property name="testreport.dir" location="testreport"/>
-  <property name="build" location="build"/>
+  <property name="build.dir" location="build"/>
+  <property name="build-test.dir" location="build-test"/>
   <property name="dist"  location="dist"/>
   <property name="ext"   location="external"/>
+  <property name="mainResources" location="src/main/resources"/>
   <property name="testResources" location="src/test/resources"/>
   <property name="testSuites.dir" location="src/test/testsuites"/>
   
   <path id="classpath">
-    <pathelement location="${build}"/>
+    <pathelement location="${build.dir}"/>
+    <fileset dir="${ext}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir = "${testResources}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathelement location="${build-test.dir}"/>
     <fileset dir="${ext}">
       <include name="**/*.jar"/>
     </fileset>
@@ -28,12 +37,16 @@
     <!-- Create the time stamp -->
     <tstamp/>
     <!-- create the builddirectory structure used by compile -->
-    <mkdir dir="${build}"/>
+    <mkdir dir="${build.dir}"/>
+    <copy todir="${build.dir}">
+    <fileset dir="${mainResources}" />
+	</copy>
+
   </target>
   
   <target name="compile" depends="init" description="compile the source">
     <!-- Compile the Java code from ${src.dir} into ${build} -->
-    <javac srcdir="${src.dir}" destdir="${build}" classpathref="classpath"/>
+    <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath"/>
   </target>
   
   <target name="dist" depends="compile" description="generate the distribution">
@@ -46,7 +59,7 @@
   
   <target name="clean" description="clean up">
     <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
+    <delete dir="${build.dir}"/>
     <delete dir="${dist}"/>
   </target>
   
