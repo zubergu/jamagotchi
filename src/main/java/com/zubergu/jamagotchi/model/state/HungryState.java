@@ -1,25 +1,25 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
-import com.zubergu.jamagotchi.model.animalmodel.Level;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.Level;
+import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 
 /**
-* Implementation of animal behaviour in Angry state.
+* Implementation of animal behaviour in Hungry state.
 */
-public class AngryState implements AnimalStateInterface {
+public class HungryState implements ICreatureState {
 
   private static final int ANGER_CHANGE = 1;
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
   
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
   
-  private int angryTickCounter = 0;
+  private int hungryTickCounter = 0;
 
-  public AngryState(AbstractAnimalModel model) {
+  public HungryState( AbstractCreatureModel model ) {
     this.model = model;
   }
 
@@ -30,7 +30,10 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void feed() {
-    //
+    hungryTickCounter = 0;
+    model.setLevel(Level.HUNGER, model.getMinLevel());
+    model.increaseLevel(Level.DIRTINESS, 20);
+    model.setState(State.IDLE);
   }
   
   @Override
@@ -55,8 +58,7 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void talkTo() {
-    angryTickCounter = 0;
-    model.setState(State.IDLE);
+
   }
   
   @Override
@@ -66,9 +68,10 @@ public class AngryState implements AnimalStateInterface {
   
   @Override
   public void tick() {
-    angryTickCounter++;
-    if(angryTickCounter > 200) {
-      angryTickCounter = 0;
+    hungryTickCounter++;
+    
+    if(hungryTickCounter > 200) {
+      hungryTickCounter = 0;
       model.setState(State.SICK);
     }
   }

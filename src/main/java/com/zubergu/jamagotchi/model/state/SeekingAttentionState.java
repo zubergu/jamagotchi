@@ -1,14 +1,14 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
-import com.zubergu.jamagotchi.model.animalmodel.Level;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.Level;
+import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 
 /**
 * Implementation of animal behaviour in Seeking attention state.
 */
-public class SeekingAttentionState implements AnimalStateInterface {
+public class SeekingAttentionState implements ICreatureState {
 
   private static final int ANGER_CHANGE = 1;
   private static final int HUNGER_CHANGE = 2;
@@ -17,10 +17,10 @@ public class SeekingAttentionState implements AnimalStateInterface {
   
   
   
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
   private int seekingAttentionTickCounter = 0;
   
-  public SeekingAttentionState(AbstractAnimalModel model) {
+  public SeekingAttentionState(AbstractCreatureModel model) {
     this.model = model;
   }
 

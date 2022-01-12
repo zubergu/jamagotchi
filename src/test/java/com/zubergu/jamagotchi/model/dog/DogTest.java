@@ -1,6 +1,7 @@
-package com.zubergu.jamagotchi.model.animalmodel;
+package com.zubergu.jamagotchi.model.dog;
 
-import com.zubergu.jamagotchi.model.animalstate.*;
+import com.zubergu.jamagotchi.model.state.*;
+import com.zubergu.jamagotchi.model.*;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -13,7 +14,7 @@ public class DogTest {
 
   @Test
   public void dogInitializationTest() {
-    AbstractAnimalModel dog = new Dog(DOG_NAME);
+    AbstractCreatureModel dog = new Dog(DOG_NAME);
     
     assertEquals(dog.getLevel(Level.HUNGER), dog.getMinLevel());
     assertEquals(dog.getLevel(Level.ANGER), dog.getMinLevel());
@@ -30,14 +31,14 @@ public class DogTest {
   
   @Test
   public void setStateTest() {
-    AbstractAnimalModel dog = new Dog(DOG_NAME);
+    AbstractCreatureModel dog = new Dog(DOG_NAME);
     dog.setState(State.ANGRY);
     assertTrue(dog.getCurrentState() instanceof AngryState);
   }
   
   @Test
   public void setAndIncreaseLevelTest() {
-    AbstractAnimalModel dog = new Dog(DOG_NAME);
+    AbstractCreatureModel dog = new Dog(DOG_NAME);
     dog.setLevel(Level.HUNGER, 50);
     dog.increaseLevel(Level.HUNGER, 20);
     assertEquals(dog.getLevel(Level.HUNGER), 70);
@@ -45,7 +46,7 @@ public class DogTest {
   
   @Test
   public void setAndDecreaseLevelTest() {
-    AbstractAnimalModel dog = new Dog(DOG_NAME);
+    AbstractCreatureModel dog = new Dog(DOG_NAME);
     dog.setLevel(Level.HUNGER, 50);
     dog.decreaseLevel(Level.HUNGER, 20);
     assertEquals(dog.getLevel(Level.HUNGER), 30);
@@ -53,7 +54,7 @@ public class DogTest {
   
   @Test
   public void setLevelWorksWithinLimits() {
-    AbstractAnimalModel dog = new Dog(DOG_NAME);
+    AbstractCreatureModel dog = new Dog(DOG_NAME);
     dog.setLevel(Level.HUNGER, dog.getMaxLevel() + 20);
     dog.setLevel(Level.ANGER, dog.getMinLevel() - 20);
     

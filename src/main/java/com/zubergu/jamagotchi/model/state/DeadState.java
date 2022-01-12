@@ -1,18 +1,18 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
-import com.zubergu.jamagotchi.model.animalmodel.Level;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.Level;
+import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 
 /**
 * Implementation of animal behaviour in Dead state.
 */
-public class DeadState implements AnimalStateInterface {
+public class DeadState implements ICreatureState {
 
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
 
-  public DeadState(AbstractAnimalModel model) {
+  public DeadState( AbstractCreatureModel model ) {
     this.model = model;
   }
 

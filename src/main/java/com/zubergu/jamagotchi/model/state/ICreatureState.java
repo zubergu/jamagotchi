@@ -1,11 +1,11 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
 import java.io.Serializable;
 
 /**
-* Interface for animal state.
+* Interface for creature state.
 */
-public interface AnimalStateInterface extends Serializable {
+public interface ICreatureState extends Serializable {
 
   public void pet();
   public void feed();

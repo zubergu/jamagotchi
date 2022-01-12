@@ -1,11 +1,10 @@
 package com.zubergu.jamagotchi.controller;
 
 
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 import com.zubergu.jamagotchi.gui.swinggui.MainView;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.audio.SoundController;
+import com.zubergu.jamagotchi.model.State;
 
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
@@ -17,23 +16,28 @@ import java.io.ObjectOutputStream;
 /**
 *
 */
-public class AnimalController implements ControllerInterface, StateObserver {
+public class CreatureController implements ICreatureController, StateObserver {
 
-  private AbstractAnimalModel animal;
+  private AbstractCreatureModel animal;
   private MainView view;
   private SoundController soundController;
+  private AnimationController animationController;
 
-  public AnimalController( AbstractAnimalModel model, MainView view, SoundController soundController ) {
+  public CreatureController( AbstractCreatureModel model, MainView view, SoundController soundController, AnimationController animationController ) {
     this.animal = model;
     this.view = view;
     this.soundController = soundController;
+    this.animationController = animationController;
+    this.animationController.setAnimationPanel( view.getAnimationPanel() );
 
     
     /* set up observers for model */
-    animal.registerStateObserver( this );
+    animal.registerStateObserver( this );    
     animal.registerLevelsObserver( view );
     animal.registerActionObserver( soundController );
     animal.registerStateObserver( soundController );
+    animal.registerStateObserver( animationController );
+    animal.registerActionObserver( animationController );
   }
   
   public void playWith() {

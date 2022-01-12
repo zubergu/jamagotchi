@@ -13,8 +13,8 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.zubergu.jamagotchi.model.animalmodel.Dog;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.dog.Dog;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -25,7 +25,7 @@ import java.io.File;
 * Extends JDialog to be modal( wait for closing before proceeding).
 */
 public class StartScreen extends JDialog {
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
   
   public StartScreen() {
     super((Window) null, "Jamagotchi start screen");
@@ -61,8 +61,8 @@ public class StartScreen extends JDialog {
             File file = fileChooser.getSelectedFile();
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
             Object ob = ois.readObject();
-            if(ob instanceof AbstractAnimalModel) {
-              model = (AbstractAnimalModel) ob;
+            if(ob instanceof AbstractCreatureModel) {
+              model = (AbstractCreatureModel) ob;
               setVisible(false);
             }
           } catch (Exception ex) {
@@ -102,7 +102,7 @@ public class StartScreen extends JDialog {
   
   }
   
-  public AbstractAnimalModel getModel() {
+  public AbstractCreatureModel getModel() {
     return model;
   }
   

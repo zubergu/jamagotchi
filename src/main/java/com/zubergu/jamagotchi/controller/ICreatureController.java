@@ -3,7 +3,7 @@ package com.zubergu.jamagotchi.controller;
 /**
 *
 */
-public interface ControllerInterface {
+public interface ICreatureController {
 
   public void playWith();
   public void stopPlaying();

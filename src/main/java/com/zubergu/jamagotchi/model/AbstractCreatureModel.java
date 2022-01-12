@@ -1,10 +1,10 @@
-package com.zubergu.jamagotchi.model.animalmodel;
+package com.zubergu.jamagotchi.model;
 
 
 import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.ActionObserver;
-import com.zubergu.jamagotchi.model.animalstate.*;
+import com.zubergu.jamagotchi.model.state.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.io.ObjectInputStream;
 /**
 *
 */
-public abstract class AbstractAnimalModel implements Serializable {
+public abstract class AbstractCreatureModel implements Serializable {
   
   /* constants for model */
   private static final int MAX_LEVEL = 100;
@@ -34,21 +34,21 @@ public abstract class AbstractAnimalModel implements Serializable {
   private HashMap<Level, Integer> levels = new HashMap<Level, Integer>();
   
   /* state of model */
-  private AnimalStateInterface state;
-  private HashMap<State, AnimalStateInterface> states = new HashMap<State, AnimalStateInterface>();
-  private HashMap<AnimalStateInterface, State> reverseStates = new HashMap<AnimalStateInterface, State>();
+  private ICreatureState state;
+  private HashMap<State, ICreatureState> states = new HashMap<State, ICreatureState>();
+  private HashMap<ICreatureState, State> reverseStates = new HashMap<ICreatureState, State>();
   
   /* observers */
   private transient ArrayList<LevelsObserver> levelsObservers = new ArrayList<LevelsObserver>();
   private transient ArrayList<StateObserver> stateObservers = new ArrayList<StateObserver>();
   private transient ArrayList<ActionObserver> actionObservers = new ArrayList<ActionObserver>();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
   
-  public AbstractAnimalModel() {
+  public AbstractCreatureModel() {
     // serialization made me do it
   }
   
   /* constructor */
-  public AbstractAnimalModel(String name) {
+  public AbstractCreatureModel(String name) {
     this.name = name;
     
     levels.put(Level.HUNGER, MIN_LEVEL);
@@ -204,12 +204,12 @@ public abstract class AbstractAnimalModel implements Serializable {
     state.wakeUp();
   }
   
-  public void setState(State newState) {
+  public void setState( State newState ) {
     state = states.get(newState);
     notifyStateObservers();
   }
   
-  public int getLevel(Level level) {
+  public int getLevel( Level level ) {
     return levels.get(level);
   }
   
@@ -234,11 +234,11 @@ public abstract class AbstractAnimalModel implements Serializable {
     setLevel(level, levels.get(level) - value);
   }
   
-  public AnimalStateInterface getState(State state) {
+  public ICreatureState getState(State state) {
     return states.get(state);
   }
   
-  public AnimalStateInterface getCurrentState() {
+  public ICreatureState getCurrentState() {
     return state;
   }
   
@@ -259,6 +259,6 @@ public abstract class AbstractAnimalModel implements Serializable {
     levelsObservers = new ArrayList<LevelsObserver>();
     stateObservers = new ArrayList<StateObserver>();
     actionObservers = new ArrayList<ActionObserver>();
-}
+  }
 
 }

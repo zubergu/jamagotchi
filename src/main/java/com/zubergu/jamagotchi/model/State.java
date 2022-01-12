@@ -1,4 +1,4 @@
-package com.zubergu.jamagotchi.model.animalmodel;
+package com.zubergu.jamagotchi.model;
 
 public enum State {
   

@@ -1,4 +1,4 @@
-package com.zubergu.jamagotchi.model.animalmodel;
+package com.zubergu.jamagotchi.model;
 
 /**
 * Enum of current model levels, used as an argument to getter and setter methods mostly.

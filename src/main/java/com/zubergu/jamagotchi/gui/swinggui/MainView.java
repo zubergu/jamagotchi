@@ -1,9 +1,9 @@
 package com.zubergu.jamagotchi.gui.swinggui;
 
 import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
-import com.zubergu.jamagotchi.controller.ControllerInterface;
-import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
+import com.zubergu.jamagotchi.controller.ICreatureController;
+import com.zubergu.jamagotchi.model.State;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -25,8 +25,8 @@ public class MainView implements LevelsObserver {
   private static final int SCREEN_SIZE_X = 800;
   private static final int SCREEN_SIZE_Y = 600;
 
-  private ControllerInterface controller;
-  private AbstractAnimalModel model;
+  private ICreatureController creatureController;
+  private AbstractCreatureModel model;
   
   private JFrame mainFrame;
   
@@ -51,7 +51,7 @@ public class MainView implements LevelsObserver {
   
   private JPanel statsPanel;
   
-  private JPanel imagePanel;
+  private AnimationPanel animationPanel;
 
   public MainView() {
     mainFrame = new JFrame("Jamagotchi");
@@ -75,7 +75,7 @@ public class MainView implements LevelsObserver {
     
     buttonsPanel = new JPanel(new GridLayout(0,1));
     statsPanel  = new JPanel(new GridLayout(1,0));
-    imagePanel = new JPanel();
+    animationPanel = new AnimationPanel();
   }
   
   /*
@@ -108,59 +108,59 @@ public class MainView implements LevelsObserver {
     
     
     /* put panels in main frame */
-    mainFrame.getContentPane().add(buttonsPanel, BorderLayout.WEST);
-    mainFrame.getContentPane().add(statsPanel, BorderLayout.SOUTH);
-    mainFrame.getContentPane().add(imagePanel, BorderLayout.CENTER);
+    mainFrame.getContentPane().add( buttonsPanel, BorderLayout.WEST );
+    mainFrame.getContentPane().add( statsPanel, BorderLayout.SOUTH );
+    mainFrame.getContentPane().add( animationPanel, BorderLayout.CENTER );
     
     
     
     /* set actions for components */
     playButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.playWith();
+        creatureController.playWith();
       }
     });
     
     feedButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.feed();
+        creatureController.feed();
       }
     });
     
     petButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.pet();
+        creatureController.pet();
       }
     });
     
     cleanButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.clean();
+        creatureController.clean();
       }
     });
     
     takeToVetButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.takeToVet();
+        creatureController.takeToVet();
       }
     });
     
     talkToButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.talkTo();
+        creatureController.talkTo();
       }
     });
         
     wakeUpButton.addActionListener( new ActionListener() {
       public void actionPerformed(ActionEvent ev) {
-        controller.wakeUp();
+        creatureController.wakeUp();
       }
     });
       
       
     mainFrame.addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent ev) {
-        controller.shutdownActions();
+        creatureController.shutdownActions();
       }
     });
     
@@ -186,12 +186,16 @@ public class MainView implements LevelsObserver {
     angerBar.setValue(anger);
   }
   
-  public void setController(ControllerInterface controller) {
-    this.controller = controller;
+  public void setCreatureController( ICreatureController controller) {
+    this.creatureController = controller;
   }
   
   public void setStateLabel(String newState) {
     currentStateLabel.setText(newState);
+  }
+  
+  public AnimationPanel getAnimationPanel() {
+      return animationPanel;
   }
 
 }

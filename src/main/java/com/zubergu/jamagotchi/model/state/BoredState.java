@@ -1,14 +1,14 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
-import com.zubergu.jamagotchi.model.animalmodel.Level;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.Level;
+import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 
 /**
 * Implementation of animal behaviour in Bored state.
 */
-public class BoredState implements AnimalStateInterface {
+public class BoredState implements ICreatureState {
 
   private static final int ANGER_CHANGE = 1;
   private static final int HUNGER_CHANGE = 2;
@@ -16,9 +16,9 @@ public class BoredState implements AnimalStateInterface {
   private static final int JOY_CHANGE = 3;
   private static final int BOREDOM_CHANGE = 1;
 
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
 
-  public BoredState(AbstractAnimalModel model) {
+  public BoredState( AbstractCreatureModel model ) {
     this.model = model;
   }
 

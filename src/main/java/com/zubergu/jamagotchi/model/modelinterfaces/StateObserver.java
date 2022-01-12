@@ -1,7 +1,7 @@
 package com.zubergu.jamagotchi.model.modelinterfaces;
 
 
-import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.model.State;
 /**
 *
 */

@@ -1,13 +1,13 @@
 package com.zubergu.jamagotchi.gui.swinggui;
 
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 /**
 *  Thread for displaying start screen.
 */
 public class StartScreenRunner implements Runnable {
 
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
   
   public void run() {
     StartScreen firstScreen = new StartScreen();
@@ -15,7 +15,7 @@ public class StartScreenRunner implements Runnable {
     model = firstScreen.getModel();
   }
   
-  public AbstractAnimalModel getModel() {
+  public AbstractCreatureModel getModel() {
     return model;
   }
 

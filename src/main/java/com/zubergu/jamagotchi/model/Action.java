@@ -1,4 +1,4 @@
-package com.zubergu.jamagotchi.model.animalmodel;
+package com.zubergu.jamagotchi.model;
 
 /**
 * Enum for all available actions that model and sound controller should react to.

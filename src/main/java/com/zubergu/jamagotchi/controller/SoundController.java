@@ -1,9 +1,9 @@
-package com.zubergu.jamagotchi.audio;
+package com.zubergu.jamagotchi.controller;
 
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.ActionObserver;
-import com.zubergu.jamagotchi.model.animalmodel.Action;
-import com.zubergu.jamagotchi.model.animalmodel.State;
+import com.zubergu.jamagotchi.model.Action;
+import com.zubergu.jamagotchi.model.State;
 
 import java.net.URL;
 import javax.sound.sampled.*;
@@ -40,6 +40,7 @@ public class SoundController implements StateObserver, ActionObserver {
             System.exit( 0 );
         }
         
+        clips.get( State.IDLE ).put( Action.IDLE, clip );
         clips.get( State.TIRED ).put( Action.IDLE, clip );
         clips.get( State.BORED ).put( Action.IDLE, clip );
         clips.get( State.PLAYING ).put( Action.IDLE, clip );
@@ -60,7 +61,7 @@ public class SoundController implements StateObserver, ActionObserver {
     }
     
     public void notifyOfAction( Action action ) {
-        playSound( state, action );
+        // playSound( state, action );
     }
     
     public void playSound( State state, Action action ) {

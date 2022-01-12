@@ -1,6 +1,6 @@
 package com.zubergu.jamagotchi.model.modelinterfaces;
 
-import com.zubergu.jamagotchi.model.animalmodel.Action;
+import com.zubergu.jamagotchi.model.Action;
 
 /**
 *

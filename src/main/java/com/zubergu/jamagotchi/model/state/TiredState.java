@@ -1,24 +1,24 @@
-package com.zubergu.jamagotchi.model.animalstate;
+package com.zubergu.jamagotchi.model.state;
 
-import com.zubergu.jamagotchi.model.animalmodel.Level;
-import com.zubergu.jamagotchi.model.animalmodel.State;
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.Level;
+import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 
 /**
 * Implementation of animal behaviour in Tired state.
 */
-public class TiredState implements AnimalStateInterface {
+public class TiredState implements ICreatureState {
 
   private static final int ANGER_CHANGE = 1;
   private static final int HUNGER_CHANGE = 2;
   private static final int ENERGY_CHANGE = 1;
   private static final int JOY_CHANGE = 3;
   
-  private AbstractAnimalModel model;
+  private AbstractCreatureModel model;
   
   private int tiredTickCounter = 0;
 
-  public TiredState(AbstractAnimalModel model) {
+  public TiredState( AbstractCreatureModel model ) {
     this.model = model;
   }
 

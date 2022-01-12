@@ -2,7 +2,7 @@ package com.zubergu.jamagotchi;
 
 import javax.swing.SwingUtilities;
 
-import com.zubergu.jamagotchi.model.animalmodel.AbstractAnimalModel;
+import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 import com.zubergu.jamagotchi.gui.swinggui.StartScreenRunner;
 import com.zubergu.jamagotchi.gui.swinggui.MainViewRunner;
 
@@ -12,7 +12,7 @@ import com.zubergu.jamagotchi.gui.swinggui.MainViewRunner;
 public class Jamagotchi {
   
   public static void main(String[] args) {
-    AbstractAnimalModel model;
+    AbstractCreatureModel model;
     
     // gui threads 
     StartScreenRunner ssRunner = new StartScreenRunner();
