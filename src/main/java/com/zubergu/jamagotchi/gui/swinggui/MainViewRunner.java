@@ -6,6 +6,10 @@ import com.zubergu.jamagotchi.controller.ICreatureController;
 import com.zubergu.jamagotchi.controller.CreatureController;
 import com.zubergu.jamagotchi.controller.SoundController;
 import com.zubergu.jamagotchi.controller.AnimationController;
+import com.zubergu.jamagotchi.managers.creatures.AbstractCreatureResourcesManager;
+import com.zubergu.jamagotchi.managers.surroundings.AbstractSurroundingsResourcesManager;
+import com.zubergu.jamagotchi.managers.creatures.dog.DogResourcesManager;
+import com.zubergu.jamagotchi.managers.surroundings.basic.BasicSurroundingsResourcesManager;
 
 /**
 * Thread from which main application will be started.
@@ -15,13 +19,17 @@ public class MainViewRunner implements Runnable {
   private AbstractCreatureModel model;  
   
   public void run() {
+      
     MainView view = new MainView();
-    SoundController soundController = new SoundController();
-    AnimationController animationController = new AnimationController();
+    AbstractCreatureResourcesManager creatureResourcesManager = new DogResourcesManager();
+    AbstractSurroundingsResourcesManager surroundingsResourcesManager = new BasicSurroundingsResourcesManager();
+    SoundController soundController = new SoundController( surroundingsResourcesManager, creatureResourcesManager);
+    AnimationController animationController = new AnimationController( surroundingsResourcesManager, creatureResourcesManager );
     ICreatureController controller = new CreatureController( model, view, soundController, animationController );
     view.setCreatureController( controller );
     view.start();
     controller.startTicking();
+    
   }
   
   public void setModel( AbstractCreatureModel model ) {
