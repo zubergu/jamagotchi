@@ -1,13 +1,11 @@
 package com.zubergu.jamagotchi.managers.surroundings;
 
-import java.awt.image.BufferedImage;
-
 import com.zubergu.jamagotchi.model.State;
 import com.zubergu.jamagotchi.model.Action;
 
 import java.net.URL;
 import javax.sound.sampled.*;
-
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 
@@ -30,7 +28,7 @@ public abstract class AbstractSurroundingsResourcesManager {
         }
     }
     
-    public BufferedImage[] getBackgroundAnimationForState( State state ) {
+    public BufferedImage[] getAnimationForState( State state ) {
         BufferedImage[] result = stateAnimation.get( state );
         
         if( result == null ) {
@@ -41,7 +39,7 @@ public abstract class AbstractSurroundingsResourcesManager {
         return result;
     }
     
-    public BufferedImage[] getBackgroundAnimationForActionInState( State state, Action action ) {
+    public BufferedImage[] getAnimationForActionInState( State state, Action action ) {
         BufferedImage[] result = actionStateAnimation.get( state ).get( action );
         
         if( result == null ) {

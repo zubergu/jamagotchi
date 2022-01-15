@@ -25,10 +25,11 @@ public class MainViewRunner implements Runnable {
     AbstractSurroundingsResourcesManager surroundingsResourcesManager = new BasicSurroundingsResourcesManager();
     SoundController soundController = new SoundController( surroundingsResourcesManager, creatureResourcesManager);
     AnimationController animationController = new AnimationController( surroundingsResourcesManager, creatureResourcesManager );
-    ICreatureController controller = new CreatureController( model, view, soundController, animationController );
-    view.setCreatureController( controller );
+    ICreatureController creatureController = new CreatureController( model, view, soundController, animationController );
+    view.setCreatureController( creatureController );
     view.start();
-    controller.startTicking();
+    creatureController.startTicking();
+    animationController.startTicking();
     
   }
   

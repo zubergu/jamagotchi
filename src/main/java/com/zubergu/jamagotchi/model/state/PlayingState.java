@@ -12,7 +12,7 @@ public class PlayingState implements ICreatureState {
 
   private static final int ANGER_CHANGE = 1;
   private static final int HUNGER_CHANGE = 2;
-  private static final int ENERGY_CHANGE = 1;
+  private static final int ENERGY_CHANGE = 10;
   private static final int JOY_CHANGE = 3;
   private static final int BOREDOM_CHANGE = 3;
   private AbstractCreatureModel model;

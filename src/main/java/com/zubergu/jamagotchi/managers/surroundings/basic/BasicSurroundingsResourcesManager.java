@@ -14,8 +14,8 @@ public class BasicSurroundingsResourcesManager extends AbstractSurroundingsResou
     
     private static final int NUM_OF_FRAMES_BGD_STATE = 10;
     private static final int NUM_OF_FRAMES_ACTION_STATE = 10;
-    private static final String BGD_IMAGE_PATH = "/graphics/room_background.png";
-    private static final String IDLE_AUDIO_PATH = "/audio/YAWN.wav";
+    private static final String BGD_IMAGE_PATH = "/resources/surroundings/basic/graphics/room_background.png";
+    private static final String IDLE_AUDIO_PATH = "/resources/surroundings/basic/audio/YAWN.wav";
     
     @Override
     public BufferedImage[] createStateAnimation( State state ) {
@@ -82,16 +82,16 @@ public class BasicSurroundingsResourcesManager extends AbstractSurroundingsResou
                 break;
         }
         
-        /*
+        
         try {
-            Url url = SoundController.class.getResource( path );
+            URL url = BasicSurroundingsResourcesManager.class.getResource( path );
             result = AudioSystem.getClip();
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
             result.open(ais);
         } catch ( Exception ex ) {
             ex.printStackTrace();
         }
-        */
+        
         
         return result;
 
