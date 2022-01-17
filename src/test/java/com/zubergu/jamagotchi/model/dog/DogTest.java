@@ -1,6 +1,6 @@
 package com.zubergu.jamagotchi.model.dog;
 
-import com.zubergu.jamagotchi.model.state.*;
+import com.zubergu.jamagotchi.model.state.basic.*;
 import com.zubergu.jamagotchi.model.*;
 
 import static org.testng.Assert.assertEquals;

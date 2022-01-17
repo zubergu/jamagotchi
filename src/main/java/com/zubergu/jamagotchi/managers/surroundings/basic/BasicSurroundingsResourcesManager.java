@@ -2,6 +2,7 @@ package com.zubergu.jamagotchi.managers.surroundings.basic;
 
 import com.zubergu.jamagotchi.managers.surroundings.AbstractSurroundingsResourcesManager;
 import com.zubergu.jamagotchi.model.*;
+import com.zubergu.jamagotchi.gui.animation.AnimationElement;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -18,28 +19,28 @@ public class BasicSurroundingsResourcesManager extends AbstractSurroundingsResou
     private static final String IDLE_AUDIO_PATH = "/resources/surroundings/basic/audio/YAWN.wav";
     
     @Override
-    public BufferedImage[] createStateAnimation( State state ) {
-        BufferedImage[] stateAnimation = new BufferedImage[ NUM_OF_FRAMES_BGD_STATE ];
+    public AnimationElement[] createStateAnimation( State state ) {
+        AnimationElement[] stateAnimation = new AnimationElement[ NUM_OF_FRAMES_BGD_STATE ];
         BufferedImage backgroundImage = openImageForState( state );
         
         // actual animation will go here when backgound changes will be implemented
         for( int i = 0; i < stateAnimation.length; i++ ) {
-            stateAnimation[i] = backgroundImage;
+            stateAnimation[i] = new AnimationElement( backgroundImage, 0, 0 );
         }
         
         return stateAnimation;
     }
     
     @Override
-    public BufferedImage[] createActionStateAnimation( State state, Action action ) {
-        BufferedImage[] actionStateAnimation = new BufferedImage[ NUM_OF_FRAMES_ACTION_STATE ];
+    public AnimationElement[] createActionStateAnimation( State state, Action action ) {
+        AnimationElement[] actionStateAnimation = new AnimationElement[ NUM_OF_FRAMES_ACTION_STATE ];
         
         // action animation should go here when implementing
         BufferedImage frame = openImageForState( state );
         
         // actual animation will go here when backgound changes will be implemented
         for( int i = 0; i < actionStateAnimation.length; i++ ) {
-            actionStateAnimation[i] = frame;
+            actionStateAnimation[i] = new AnimationElement( frame, 0, 0 );
         }
         
         return actionStateAnimation;

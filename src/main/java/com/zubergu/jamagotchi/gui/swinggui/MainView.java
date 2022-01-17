@@ -4,6 +4,7 @@ import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
 import com.zubergu.jamagotchi.model.AbstractCreatureModel;
 import com.zubergu.jamagotchi.controller.ICreatureController;
 import com.zubergu.jamagotchi.model.State;
+import com.zubergu.jamagotchi.gui.animation.AnimationPanel;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;

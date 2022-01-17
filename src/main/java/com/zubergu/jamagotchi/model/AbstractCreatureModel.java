@@ -4,7 +4,7 @@ package com.zubergu.jamagotchi.model;
 import com.zubergu.jamagotchi.model.modelinterfaces.LevelsObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.ActionObserver;
-import com.zubergu.jamagotchi.model.state.*;
+import com.zubergu.jamagotchi.model.state.basic.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

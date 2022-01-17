@@ -1,4 +1,4 @@
-package com.zubergu.jamagotchi.gui.swinggui;
+package com.zubergu.jamagotchi.gui.animation;
 
 
 import javax.swing.JPanel;
@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.awt.Toolkit;
 
 
 import java.util.Random;
@@ -29,6 +30,7 @@ public class AnimationPanel extends JPanel {
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );
         g.drawImage( frame, 0, 0, null );
+        Toolkit.getDefaultToolkit().sync(); 
         g.dispose();
     }
 }

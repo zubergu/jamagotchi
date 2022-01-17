@@ -4,7 +4,8 @@ import com.zubergu.jamagotchi.model.modelinterfaces.StateObserver;
 import com.zubergu.jamagotchi.model.modelinterfaces.ActionObserver;
 import com.zubergu.jamagotchi.model.State;
 import com.zubergu.jamagotchi.model.Action;
-import com.zubergu.jamagotchi.gui.swinggui.AnimationPanel;
+import com.zubergu.jamagotchi.gui.animation.AnimationPanel;
+import com.zubergu.jamagotchi.gui.animation.AnimationElement;
 import com.zubergu.jamagotchi.managers.creatures.AbstractCreatureResourcesManager;
 import com.zubergu.jamagotchi.managers.surroundings.AbstractSurroundingsResourcesManager;
 
@@ -27,12 +28,13 @@ public class AnimationController implements StateObserver, ActionObserver, Actio
     private AbstractSurroundingsResourcesManager surroundingsResourcesManager;
     private AbstractCreatureResourcesManager creatureResourcesManager;
     
-    private BufferedImage[] currentBackgroundAnimation;
-    private BufferedImage[] currentCreatureAnimation;
+    private AnimationElement[] currentBackgroundAnimation;
+    private AnimationElement[] currentCreatureAnimation;
     private int nextBackgroundAnimationFrame = 0;
     private int nextCreatureAnimationFrame = 0;
     private int backgroundAnimationDirection = 1;
     private int creatureAnimationDirection = 1;
+    private boolean directionLeft = false;
     
     private int xCreaturePosition = 200;
     private int yCreaturePosition = 200; 
@@ -48,9 +50,15 @@ public class AnimationController implements StateObserver, ActionObserver, Actio
     }
     
     public void updateOnStateChange( State state ) {
+
         this.currentState = state;
         currentBackgroundAnimation = surroundingsResourcesManager.getAnimationForState( state );
         currentCreatureAnimation = creatureResourcesManager.getAnimationForState( state );
+        
+        // default animation direction will be right >>>
+        backgroundAnimationDirection = 1;
+        creatureAnimationDirection = 1;
+        directionLeft = false;
         
         // prevent reading outside of animation array if animation has only 1 frame
         if( currentBackgroundAnimation.length < 2 ) {
@@ -89,15 +97,22 @@ public class AnimationController implements StateObserver, ActionObserver, Actio
     }
     
     
-    private void buildNextFrame() {
+    private void buildNextFrame() {        
+        AnimationElement frameElement = currentBackgroundAnimation[nextBackgroundAnimationFrame];
+        AnimationElement creatureElement = currentCreatureAnimation[nextCreatureAnimationFrame];
+        BufferedImage frameImg = frameElement.getImage( directionLeft );
+        BufferedImage creatureImg = creatureElement.getImage( directionLeft );
         
-        frame = currentBackgroundAnimation[nextBackgroundAnimationFrame];
+        
+        ColorModel cm = frameImg.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = frameImg.copyData(null);
+        frame = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
         
         Graphics g = frame.getGraphics();
-        // g.drawImage( backgroundImage, 0, 0, null );
         
         /* TODO: draw also action images here layered bgd->bgdAction->creature->creatureAction */
-        g.drawImage( currentCreatureAnimation[nextCreatureAnimationFrame], xCreaturePosition, yCreaturePosition, null );
+        g.drawImage( creatureImg, xCreaturePosition + creatureElement.getDeltaX( directionLeft ), yCreaturePosition + creatureElement.getDeltaY( directionLeft ), null );
         g.dispose();
 
         
@@ -114,7 +129,8 @@ public class AnimationController implements StateObserver, ActionObserver, Actio
             nextCreatureAnimationFrame + creatureAnimationDirection < 0 ) {
         
             creatureAnimationDirection = -creatureAnimationDirection;
-            
+            directionLeft = !directionLeft;
+
         }
         
         nextBackgroundAnimationFrame += backgroundAnimationDirection;
@@ -122,7 +138,7 @@ public class AnimationController implements StateObserver, ActionObserver, Actio
     }
     
     public void startTicking() {
-        Timer timer = new Timer( 1000, this );
+        Timer timer = new Timer( 1_000, this );
         timer.start();
     }
  

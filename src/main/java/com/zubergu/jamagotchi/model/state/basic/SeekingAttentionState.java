@@ -1,4 +1,4 @@
-package com.zubergu.jamagotchi.model.state;
+package com.zubergu.jamagotchi.model.state.basic;
 
 import com.zubergu.jamagotchi.model.Level;
 import com.zubergu.jamagotchi.model.State;

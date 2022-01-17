@@ -2,6 +2,7 @@ package com.zubergu.jamagotchi.managers.creatures.dog;
 
 import com.zubergu.jamagotchi.managers.creatures.AbstractCreatureResourcesManager;
 import com.zubergu.jamagotchi.model.*;
+import com.zubergu.jamagotchi.gui.animation.AnimationElement;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -16,16 +17,16 @@ public class DogResourcesManager extends AbstractCreatureResourcesManager {
         
         /* TODO: Fill other states with 1 frame still images at first */
         //TIRED( State.TIRED, null, 1, ),
-        BORED( State.BORED, null, 1, 1200, 1470, 200, 200 ),
-        PLAYING( State.PLAYING, null, 1, 800, 1060, 120, 120 ),
-        IDLE( State.IDLE, null, 1, 1070, 1440, 120, 120 ),       
+        BORED( State.BORED, null, 4, 1100, 1200, 120, 120 ),
+        PLAYING( State.PLAYING, null, 5, 90, 1060, 120, 120 ),
+        IDLE( State.IDLE, null, 8, 70, 70, 190, 190 ),       
         //HUNGRY( State.HUNGRY, null, 1, ),         
         //DEAD( State.DEAD, null, 1, ),
         //DIRTY( State.DIRTY, null, 1,  ),
         //SICK( State.SICK, null, 1,  ),
-        SLEEPING( State.SLEEPING, null, 1, 1600, 1400, 250, 250 ),
+        SLEEPING( State.SLEEPING, null, 2, 1400, 1400, 230, 250 ),
         //SEEKING_ATTENTION( State.SEEKING_ATTENTION, null, 1, ),
-        ANGRY( State.ANGRY, null, 1, 600, 1500, 150, 150 ); 
+        ANGRY( State.ANGRY, null, 5, 600, 1500, 150, 150 ); 
         
         
         private static final HashMap<State, HashMap<Action, AnimationParameters>> mapStateAndActionToParams = new HashMap<State, HashMap<Action, AnimationParameters>>();
@@ -85,27 +86,27 @@ public class DogResourcesManager extends AbstractCreatureResourcesManager {
     }   
     
     @Override
-    public BufferedImage[] createStateAnimation( State state ) {
-        BufferedImage[] stateAnimation = null;
+    public AnimationElement[] createStateAnimation( State state ) {
+        AnimationElement[] stateAnimation = null;
         AnimationParameters animationParams = AnimationParameters.getParamsForStateAndAction( state, null );
         
-        stateAnimation = new BufferedImage[ animationParams.numberOfFrames ];
+        stateAnimation = new AnimationElement[ animationParams.numberOfFrames ];
           
         /* TODO */
         for( int i = 0; i < stateAnimation.length; i++ ) {
-            stateAnimation[i] = getSpriteSubimage( animationParams, i );
+            stateAnimation[i] = new AnimationElement( getSpriteSubimage( animationParams, i ), 0, 0 );
         }
         
         return stateAnimation;
     }
     
     @Override
-    public BufferedImage[] createActionStateAnimation( State state, Action action ) {
-        BufferedImage[] stateActionAnimation = null;
+    public AnimationElement[] createActionStateAnimation( State state, Action action ) {
+        AnimationElement[] stateActionAnimation = null;
         AnimationParameters animationParams = AnimationParameters.getParamsForStateAndAction( state, action );
    
         for( int i = 0; i < stateActionAnimation.length; i++ ) {
-            stateActionAnimation[i] = getSpriteSubimage( animationParams, i );
+            stateActionAnimation[i] = new AnimationElement( getSpriteSubimage( animationParams, i ), 0, 0 );
         }
         
         return stateActionAnimation;
@@ -183,7 +184,7 @@ public class DogResourcesManager extends AbstractCreatureResourcesManager {
     private BufferedImage getSpriteSubimage( AnimationParameters params, int frame ) {
                  
         return spriteSheet.getSubimage( params.startX + params.width*frame, 
-                                        params.startY + params.height*frame, 
+                                        params.startY, 
                                         params.width,
                                         params.height );
         
